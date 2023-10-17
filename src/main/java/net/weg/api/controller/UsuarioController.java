@@ -2,6 +2,7 @@ package net.weg.api.controller;
 
 import net.weg.api.model.Usuario;
 import net.weg.api.repository.UsuarioDAO;
+import net.weg.api.service.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.Collection;
 public class UsuarioController {
 
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private UsuarioService usuarioService = new UsuarioService();
 
     @GetMapping("/{id}")
     public Usuario buscarUsuario(@PathVariable Integer id){
@@ -30,7 +32,7 @@ public class UsuarioController {
 
     @PostMapping()
     public void inserir(@RequestBody Usuario usuario){
-        usuarioDAO.inserir(usuario);
+        usuarioService.inserir(usuario);
     }
 
     @PutMapping

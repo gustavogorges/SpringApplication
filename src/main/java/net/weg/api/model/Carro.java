@@ -29,6 +29,7 @@ public class Carro {
     }
 
     public Carro(ResultSet resultSet) throws SQLException {
+        this.id = resultSet.getInt("id");
         this.ano = resultSet.getInt("ano");
         this.marca = resultSet.getString("marca");
         this.modelo = resultSet.getString("modelo");
