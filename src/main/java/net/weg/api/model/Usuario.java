@@ -10,6 +10,9 @@ public class Usuario {
     private Integer idade;
     private Carro carro;
 
+    public Usuario() {
+    }
+
     public Usuario(Integer id, String usuario, String senha, Integer idade) {
         this.id = id;
         this.usuario = usuario;
@@ -26,11 +29,11 @@ public class Usuario {
     }
 
     public Usuario(ResultSet resultSet) throws SQLException {
-        this.id = resultSet.getInt("id_usuario");
+        this.id = resultSet.getInt("id");
         this.idade = resultSet.getInt("idade");
         this.usuario = resultSet.getString("nome");
         this.senha = resultSet.getString("senha");
-        int idCarro = resultSet.getInt("carro_id");
+        int idCarro = resultSet.getInt("id_carro");
         if (idCarro != 0) {
             this.carro = new Carro(idCarro);
         }

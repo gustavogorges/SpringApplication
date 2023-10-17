@@ -57,7 +57,6 @@ public abstract class DAOPadrao<T,ID>  implements ICRUD<T,ID> {
             statement.setInt(1,id);
 
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
 
             if (resultSet.next()) {
                 return converter(resultSet);
