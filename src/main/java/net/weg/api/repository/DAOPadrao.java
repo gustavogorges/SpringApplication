@@ -14,8 +14,11 @@ public abstract class DAOPadrao<T,ID>  implements ICRUD<T,ID> {
     private String tabela;
 
     public DAOPadrao(String tabela) {
-        this.connection = Banco.conectar();
         this.tabela = tabela;
+    }
+
+    protected void conectar() {
+        this.connection = Banco.conectar();
     }
 
     @Override
@@ -24,6 +27,7 @@ public abstract class DAOPadrao<T,ID>  implements ICRUD<T,ID> {
     }
 
     public Set<T> buscarTodos() {
+        conectar();
         comandoSQL = "SELECT * FROM "+tabela+";";
         try {
             PreparedStatement statement = connection.prepareStatement(comandoSQL);
@@ -36,11 +40,18 @@ public abstract class DAOPadrao<T,ID>  implements ICRUD<T,ID> {
             return lista;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                this.connection.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }
 
     public void deletar(Integer id) {
+        conectar();
         comandoSQL = "DELETE FROM "+tabela+" WHERE id = ?;";
         try {
             PreparedStatement statement = connection.prepareStatement(comandoSQL);
@@ -48,10 +59,16 @@ public abstract class DAOPadrao<T,ID>  implements ICRUD<T,ID> {
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                this.connection.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     public T buscarUm(Integer id) {
-
+        conectar();
         comandoSQL = "SELECT * FROM "+tabela+" WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(comandoSQL)) {
             statement.setInt(1,id);
@@ -64,6 +81,12 @@ public abstract class DAOPadrao<T,ID>  implements ICRUD<T,ID> {
         throw new NoSuchElementException();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                this.connection.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }

@@ -1,8 +1,15 @@
 package net.weg.api.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Carro {
     private Integer id;
     private String marca;
@@ -10,19 +17,6 @@ public class Carro {
     private String modelo;
     private Double preco;
     private Integer ano;
-
-    public Carro(){
-
-    }
-
-    public Carro(Integer id, String marca, String cor, String modelo, Double preco, Integer ano) {
-        this.id = id;
-        this.marca = marca;
-        this.cor = cor;
-        this.modelo = modelo;
-        this.preco = preco;
-        this.ano = ano;
-    }
 
     public Carro (Integer id) {
         this.id = id;
@@ -37,51 +31,4 @@ public class Carro {
         this.preco = resultSet.getDouble("preco");
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
-    public Integer getAno() {
-        return ano;
-    }
-
-    public void setAno(Integer ano) {
-        this.ano = ano;
-    }
 }

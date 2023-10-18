@@ -15,6 +15,7 @@ public class UsuarioDAO extends DAOPadrao <Usuario,Integer>{
     }
 
     public void inserir(Usuario usuario) {
+        conectar();
         String comandoSQL = "INSERT INTO usuario " +
                 "VALUES(?,?,?,?,?);";
         try ( PreparedStatement statement = connection.prepareStatement(comandoSQL) ){
@@ -30,11 +31,18 @@ public class UsuarioDAO extends DAOPadrao <Usuario,Integer>{
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                this.connection.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
 
     public void atualizar(Usuario usuario) {
+        conectar();
         String comandoSQL = "UPDATE usuario SET nome = ?,senha = ?,idade = ?,id_carro = ? WHERE id = ?;";
         try(PreparedStatement statement =
                 connection.prepareStatement(comandoSQL)) {
@@ -50,6 +58,12 @@ public class UsuarioDAO extends DAOPadrao <Usuario,Integer>{
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                this.connection.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

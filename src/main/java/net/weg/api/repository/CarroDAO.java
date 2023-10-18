@@ -14,6 +14,7 @@ public class CarroDAO extends DAOPadrao <Carro,Integer>{
 
     @Override
     public void inserir(Carro obj) {
+        conectar();
         String comandoSQL = "INSERT INTO carro VALUES(?,?,?,?,?,?)";
         try(PreparedStatement stmt = connection.prepareStatement(comandoSQL)) {
             stmt.setInt(1,obj.getId());
@@ -25,6 +26,12 @@ public class CarroDAO extends DAOPadrao <Carro,Integer>{
             stmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                this.connection.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
