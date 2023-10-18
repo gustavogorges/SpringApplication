@@ -5,22 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Set;
 
 @Entity
-@Table(name = "tb_carro")
-@Data
-@NoArgsConstructor
+@Table(name = "tb_consorcio")
 @AllArgsConstructor
-public class Carro {
+@NoArgsConstructor
+@Data
+public class Consorcio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String marca;
-    private String cor;
-    private String modelo;
-    private Double preco;
-    private Integer ano;
-
+    private Integer numero;
+    private Double valor;
+    @OneToMany
+    private Set<Usuario> contemplados;
 }

@@ -1,66 +1,41 @@
 package net.weg.api.service;
 
+import lombok.AllArgsConstructor;
 import net.weg.api.model.Usuario;
-import net.weg.api.repository.CarroDAO;
-import net.weg.api.repository.UsuarioDAO;
+import net.weg.api.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class UsuarioService {
 
-    private UsuarioDAO usuarioDAO;
+    private UsuarioRepository usuarioRepository;
     private CarroService carroService;
 
-    public UsuarioService() {
-        this.usuarioDAO = new UsuarioDAO();
-        this.carroService = new CarroService();
-    }
-
-    public void inserir(Usuario usuario){
-        try {
-            carroService.buscarUm(usuario.getCarro().getId());
-        } catch (NoSuchElementException e) {
-            carroService.inserir(usuario.getCarro());
-        }
-        usuarioDAO.inserir(usuario);
+    public void salvar(Usuario usuario){
+        usuarioRepository.save(usuario);
     }
 
     public Usuario buscarUm(Integer id) {
-        Usuario usuario = usuarioDAO.buscarUm(id);
-        try {
-            usuario.setCarro(carroService.buscarUm(usuario.getCarro().getId()));
-        }catch (Exception ignore) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+        Usuario usuario = usuarioOptional.get();
 
-        }
         return usuario;
     }
 
     public Collection<Usuario> buscarTodos() {
-        Collection<Usuario> usuarios = usuarioDAO.buscarTodos();
-        try {
-            for (Usuario usuarioFor: usuarios) {
-                usuarioFor.setCarro(carroService.buscarUm(usuarioFor.getCarro().getId()));
-            }
-        }catch (Exception ignore) {
+        Collection<Usuario> usuarios = usuarioRepository.findAll();
 
-        }
         return usuarios;
     }
 
     public void deletar(@RequestParam Integer id) {
-        usuarioDAO.deletar(id);
+        usuarioRepository.deleteById(id);
     }
 
-    public void atualizar(Usuario usuario) {
-        try {
-            carroService.buscarUm(usuario.getCarro().getId());
-        } catch (NoSuchElementException e) {
-            carroService.inserir(usuario.getCarro());
-        }
-        usuarioDAO.atualizar(usuario);
-    }
 }
